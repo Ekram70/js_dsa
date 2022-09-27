@@ -134,6 +134,57 @@ class BinarySearchTree {
       }
     }
   }
+
+  breadthFirstSearch() {
+    let currentNode = this.root;
+    let list = [];
+    let queue = [];
+    queue.push(currentNode);
+
+    while (queue.length > 0) {
+      currentNode = queue.shift();
+      list.push(currentNode.value);
+
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+  }
+
+  breadthFirstSearchRecursive(queue, list) {
+    if (!queue.length) {
+      return list;
+    }
+
+    let currentNode = queue.shift();
+    list.push(currentNode.value);
+
+    if (currentNode.left) {
+      queue.push(currentNode.left);
+    }
+
+    if (currentNode.right) {
+      queue.push(currentNode.right);
+    }
+
+    return this.breadthFirstSearchRecursive(queue, list);
+  }
+
+  DFSInOrder() {
+    return traveseInOrder(this.root, []);
+  }
+
+  DFSPreOrder() {
+    return travesePreOrder(this.root, []);
+  }
+
+  DFSPostOrder() {
+    return travesePostOrder(this.root, []);
+  }
 }
 
 // helper function
@@ -143,4 +194,45 @@ function travese(node) {
   tree.right = node.right === null ? null : travese(node.right);
 
   return tree;
+}
+
+function traveseInOrder(node, list) {
+  if (node.left) {
+    traveseInOrder(node.left, list);
+  }
+
+  list.push(node.value);
+
+  if (node.right) {
+    traveseInOrder(node.right, list);
+  }
+
+  return list;
+}
+
+function travesePreOrder(node, list) {
+  list.push(node.value);
+
+  if (node.left) {
+    travesePreOrder(node.left, list);
+  }
+
+  if (node.right) {
+    travesePreOrder(node.right, list);
+  }
+
+  return list;
+}
+
+function travesePostOrder(node, list) {
+  if (node.left) {
+    travesePostOrder(node.left, list);
+  }
+
+  if (node.right) {
+    travesePostOrder(node.right, list);
+  }
+
+  list.push(node.value);
+  return list;
 }
